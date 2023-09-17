@@ -64,7 +64,7 @@ class TiposPersonaSerializer(serializers.ModelSerializer):
 class TitulacionesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Titulaciones
-        fileds = '__all__'
+        fields = '__all__'
 
 class UniversidadesSerializer(serializers.ModelSerializer):
     class Meta:
