@@ -1,2 +1,2 @@
-# DJango-Proyect
+# Django-Proyect
 Repositorio para alojar backend
