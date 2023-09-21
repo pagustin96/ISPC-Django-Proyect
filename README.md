@@ -1,6 +1,7 @@
+
 # proyecto-ispc
 
-### Requisitos para correr el proyecto local:
+## Requisitos para correr el proyecto local:
 A. Entorno de Desarrollo
    1. Setear VirtualEnv:<br>
       `python -m venv env`

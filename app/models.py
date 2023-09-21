@@ -1,19 +1,12 @@
-# This is an auto-generated Django model module.
-# You'll have to do the following manually to clean this up:
-#   * Rearrange models' order
-#   * Make sure each model has one field with primary_key=True
-#   * Make sure each ForeignKey and OneToOneField has `on_delete` set to the desired behavior
-#   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
-# Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
 
+# Create your models here.
 
 class Barrios(models.Model):
     nombre = models.CharField(unique=True, max_length=100, blank=True, null=True)
     def __str__(self):
         return self.nombre
     class Meta:
-        managed = False
         db_table = 'barrios'
         verbose_name = 'Barrio'
         verbose_name_plural = "Barrios"
@@ -26,7 +19,6 @@ class Campus(models.Model):
         return self.nombre
 
     class Meta:
-        managed = False
         db_table = 'campus'
         verbose_name = 'Campus'
         verbose_name_plural = "Campus"
@@ -40,7 +32,6 @@ class Carreras(models.Model):
         return self.nombre
 
     class Meta:
-        managed = False
         db_table = 'carreras'
         verbose_name = 'Carrera'
         verbose_name_plural = "Carreras"
@@ -52,7 +43,6 @@ class Ciudades(models.Model):
     def __str__(self):
         return self.nombre
     class Meta:
-        managed = False
         db_table = 'ciudades'
         verbose_name = 'Ciudad'
         verbose_name_plural = "Ciudades"
@@ -64,7 +54,6 @@ class Facultades(models.Model):
     def __str__(self):
         return self.nombre
     class Meta:
-        managed = False
         db_table = 'facultades'
         verbose_name = 'Facultad'
         verbose_name_plural = "Facultades"
@@ -76,7 +65,6 @@ class Generos(models.Model):
     def __str__(self):
         return self.nombre
     class Meta:
-        managed = False
         db_table = 'generos'
         verbose_name = 'Genero'
         verbose_name_plural = "Generos"
@@ -92,7 +80,6 @@ class Lugares(models.Model):
     def __str__(self):
         return f'{self.ciudad},{self.provincia},{self.pais},{self.barrio}'
     class Meta:
-        managed = False
         db_table = 'lugares'
         unique_together = (('pais', 'ciudad', 'barrio', 'provincia'),)
         verbose_name = 'Lugar'
@@ -105,7 +92,6 @@ class Paises(models.Model):
     def __str__(self):
         return self.nombre
     class Meta:
-        managed = False
         db_table = 'paises'
         verbose_name = 'Pais'
         verbose_name_plural = "Paises"
@@ -123,7 +109,6 @@ class Personas(models.Model):
     def __str__(self):
         return f'{self.nombre},{self.apellido}'
     class Meta:
-        managed = False
         db_table = 'personas'
         verbose_name = 'persona'
         verbose_name_plural = "Personas"
@@ -137,7 +122,6 @@ class PersonasTitulaciones(models.Model):
     def __str__(self):
         return  f'{self.persona},{self.titulacion},{self.tipo}'
     class Meta:
-        managed = False
         db_table = 'personas_titulaciones'
         verbose_name = 'Persona Titulaciones'
         verbose_name_plural = "PersonasTitulaciones"
@@ -150,7 +134,6 @@ class Provincias(models.Model):
     def __str__(self):
         return self.nombre
     class Meta:
-        managed = False
         db_table = 'provincias'
         verbose_name = 'Provincia'
         verbose_name_plural = "Provincias"
@@ -163,7 +146,6 @@ class TiposPersona(models.Model):
     def __str__(self):
         return self.nombre
     class Meta:
-        managed = False
         db_table = 'tipos_persona'
         verbose_name = 'Tipo de persona'
         verbose_name_plural = "Tipos de persona"
@@ -179,7 +161,6 @@ class Titulaciones(models.Model):
         return f'{self.carrera},{self.facultad},{self.universidad}'
 
     class Meta:
-        managed = False
         db_table = 'titulaciones'
         unique_together = (('carrera', 'facultad', 'universidad', 'campus'),)
         verbose_name = 'Titulacion'
@@ -192,7 +173,6 @@ class Universidades(models.Model):
     def __str__(self):
         return self.nombre
     class Meta:
-        managed = False
         db_table = 'universidades'
         verbose_name = 'Universidad'
         verbose_name_plural = "Universidades"
