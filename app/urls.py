@@ -33,7 +33,7 @@ urlpatterns = [
 
 
 '''
-
+///// modificacion para setear basse de datos
 
 from .db import fill_db
 
