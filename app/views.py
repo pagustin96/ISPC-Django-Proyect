@@ -1,10 +1,23 @@
 from django.shortcuts import render
-from rest_framework import viewsets
-from .serializer import BarriosSerializer, CampusSerializer, CarrerasSerializer, CiudadesSerializer, FacultadesSerializer, GenerosSerializer, LugaresSerializer, PaisesSerializer, PersonasSerializer, PersonasTitulacionesSerializer, ProvinciasSerializer, TiposPersonaSerializer, TitulacionesSerializer, UniversidadesSerializer
-from .models import Barrios, Campus, Carreras, Ciudades, Facultades, Generos, Lugares, Paises, Personas, PersonasTitulaciones, Provincias, TiposPersona, Titulaciones, Universidades
+from rest_framework import viewsets, generics, status
+from rest_framework.response import Response
+from .serializer import BarriosSerializer, CampusSerializer, CarrerasSerializer, CiudadesSerializer, FacultadesSerializer, GenerosSerializer, LugaresSerializer, PaisesSerializer, PersonasSerializer, PersonasTitulacionesSerializer, ProvinciasSerializer, TiposPersonaSerializer, TitulacionesSerializer, UniversidadesSerializer, CustomUserSerializer
+from .models import Barrios, Campus, Carreras, Ciudades, Facultades, Generos, Lugares, Paises, Personas, PersonasTitulaciones, Provincias, TiposPersona, Titulaciones, Universidades, CustomUser
 
 
 # Create your views here.
+class CreateUserView(generics.CreateAPIView):
+    queryset = CustomUser.objects.all()
+    serializer_class = CustomUserSerializer
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid():
+            self.perform_create(serializer)
+            headers = self.get_success_headers(serializer.data)
+            return Response({'detail': 'Usuario creado con éxito'}, status=status.HTTP_201_CREATED, headers=headers)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 class BarriosView(viewsets.ModelViewSet):
     serializer_class = BarriosSerializer
     queryset = Barrios.objects.all()
