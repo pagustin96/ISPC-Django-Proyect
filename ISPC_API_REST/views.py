@@ -1,0 +1,45 @@
+
+def login_view(request):
+    
+    if request.user.is_authenticated:
+            return redirect('index')
+
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        user = authenticate(username=username, password=password)
+        if user:
+            login(request,user)
+            messages.success(request,'¡Operación completada con éxito!')
+            return redirect('home')
+        else:
+            messages.error(request, 'Acceso denegado')
+        
+    return render (request,"users/login.html")
+
+def logout_view(request): 
+    logout(request)
+    messages.success(request, 'Session cerrada correctamente')
+    return redirect('login')
+
+def registro(request):
+    if request.user.is_authenticated:
+            return redirect('index')
+     
+    form = RegisterForm(request.POST or None)
+
+    if request.method == 'POST' and form.is_valid():
+        email= form.cleaned_data.get('email')
+        username = form.cleaned_data.get('username')
+        password = form.cleaned_data.get('password')
+
+        user = User.objects.create_user(username,email,password)
+        if user:
+            login(request,user)
+            messages.success(request,'Usuario creado existosamente')
+            return redirect('home')
+
+    return render(request, 'users/register.html',{
+        'form': form
+    })
