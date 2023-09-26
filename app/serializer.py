@@ -49,6 +49,10 @@ class GenerosSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class LugaresSerializer(serializers.ModelSerializer):
+    pais = serializers.StringRelatedField()
+    ciudad = serializers.StringRelatedField()
+    barrio = serializers.StringRelatedField()
+    provincia = serializers.StringRelatedField()
     class Meta:
         model = Lugares
         fields = '__all__'
@@ -59,6 +63,8 @@ class PaisesSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class PersonasSerializer(serializers.ModelSerializer):
+    genero = serializers.StringRelatedField()
+    lugar = serializers.StringRelatedField()
     class Meta:
         model = Personas
         fields = '__all__'
