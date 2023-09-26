@@ -32,13 +32,11 @@ class LoginView(APIView):
         password = request.data.get('password')
         print(username)
         user = authenticate(request, username=username, password=password)
+        print(user)
         if user is not None:
             login(request, user)
              # Calcula la fecha de expiración (30 minutos desde ahora)
-            expiration_time = timezone.now() + timedelta(minutes=30)
             token, created = Token.objects.get_or_create(user=user)
-            token.expires = expiration_time
-            token.save()
             # Crear una respuesta JSON HTTP con la cookie del token
             response = JsonResponse({'message': 'Inicio de sesión exitoso'}, status=status.HTTP_200_OK)
             response.set_cookie(key='auth_token', value=token.key, httponly=True, secure=True)
