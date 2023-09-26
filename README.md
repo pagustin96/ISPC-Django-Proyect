@@ -7,9 +7,9 @@ Antes de correr el proyecto de forma local se debe crear la base de datos con el
 
 A. Entorno de Desarrollo
    1. Setear VirtualEnv:<br>
-      `python -m venv env`
-   2. Activar VirtualEnv:<br>`*correr archivo* -> \path\to\venv\Scripts\Activate.bat`
-   3. Instalar las dependencias:<br>`pip install django djangorestframework pandas SQLAlchemy django-cors-headers djangorestframework-simplejwt coreapi mysqlclient SQLAlchemy-Utils`
+      `python -m virtualenv venv`
+   2. Activar VirtualEnv:<br>`*correr archivo* -> \path\to\venv\Scripts\Activate.bat` o `.\env\Scripts\activate `
+   3. Instalar las dependencias:<br>`pip install django djangorestframework pandas SQLAlchemy django-cors-headers djangorestframework-simplejwt coreapi mysqlclient sqlalchemy_utils python-dotenv`
    4. Configurar variables de entorno HOST, USER, PASSWORD, DB, DIALECT creando el archivo .env siguiendo el .env.example en el repositorio local
 
 B. Conexion con MySQL:
