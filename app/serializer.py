@@ -1,5 +1,22 @@
 from rest_framework import serializers
-from .models import Barrios, Campus, Carreras, Ciudades, Facultades, Generos, Lugares, Paises, Personas, PersonasTitulaciones, Provincias, TiposPersona, Titulaciones, Universidades
+from .models import Barrios, Campus, Carreras, Ciudades, Facultades, Generos, Lugares, Paises, Personas, PersonasTitulaciones, Provincias, TiposPersona, Titulaciones, Universidades, CustomUser
+
+class CustomUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomUser
+        fields = ('username', 'password')  # Campos a incluir en la creación de usuario
+        extra_kwargs = {'password': {'write_only': True}}
+
+    def create(self, validated_data):
+        username = validated_data['username']
+        password = validated_data['password']
+        if CustomUser.objects.filter(username=username).exists():
+            raise serializers.ValidationError('Ya existe un usuario con este nombre de usuario.')
+        user = CustomUser(username=username)
+        user.set_password(password)
+        user.save()
+        return user
+
 
 class BarriosSerializer(serializers.ModelSerializer):
     class Meta:
