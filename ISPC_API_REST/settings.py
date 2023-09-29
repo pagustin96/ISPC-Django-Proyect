@@ -145,13 +145,15 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+CORS_ALLOW_ALL_ORIGINS = True
 
-CORS_ALLOWED_ORIGINS = [
-    "https://example.com",
-    "https://sub.example.com",
-    "http://localhost:8080",
-    "http://127.0.0.1:9000",
-]
+#CORS_ALLOWED_ORIGINS = [
+#    "https://example.com",
+#    "https://sub.example.com",
+#    "http://localhost:8080",
+#    "http://localhost:3000"
+#    "http://127.0.0.1:9000",
+#]
 
 REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
