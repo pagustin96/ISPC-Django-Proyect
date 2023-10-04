@@ -1,6 +1,7 @@
+
 # proyecto-ispc
 
-### Requisitos para correr el proyecto local:
+## Requisitos para correr el proyecto local:
 A. Entorno de Desarrollo
    1. Setear VirtualEnv:<br>
       `python -m venv env`
@@ -11,7 +12,7 @@ A. Entorno de Desarrollo
 B. Conexion con MySQL:
    1. En ISPC-Django-Proyect/djangoproject/djangoproject/settings.py configurar los datos de la base de datos MySQL:
         ![image](https://github.com/pagustin96/ISPC-Django-Proyect/assets/105244530/64dc0ae5-1ec2-4829-a209-d7430907e2f4)
-   2. En ISPC-Django-Proyect/djangoproject/db correr el comando "python create_db.py" para inicializar la base de datos
+   2. En ISPC-Django-Proyect/djangoproject correr el comando "main.py" para inicializar la base de datos
 
 
 C. Iniciar servidor local  
