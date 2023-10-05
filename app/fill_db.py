@@ -13,6 +13,13 @@ from .entities.TipoPersona import TipoPersona
 from .entities.Persona import Persona
 from .entities.Genero import Genero
 
+from .entities.Campus import Campus
+from .entities.Carrera import Carrera
+from .entities.Universidad import Universidad
+from .entities.Facultad import Facultad
+from .entities.Titulacion import Titulacion
+from .entities.PersonaTitulacion import PersonaTitulacion
+
 
 def fill_db():
     load_dotenv()
@@ -41,9 +48,8 @@ def fill_db():
 
     for index, fila in personasDF.iterrows():
         lista_personas.append({**fila})
-
-    ##########
-
+    
+    
     # Nuevo dataframe desde la unión de los DF de profesores y alumnos
 
     for fila in lista_personas:
@@ -55,6 +61,7 @@ def fill_db():
             if pais == None:
                 pais = Pais(nombre=fila['country'])
                 session_mysql.add(pais)
+            # Se procesa la dirección de la persona, insertando si corresponde los items faltantes
 
             ciudad = session_mysql.query(Ciudad).filter(
                 Ciudad.nombre == fila['city']).first()
@@ -102,7 +109,6 @@ def fill_db():
                                   birthdate=fila['birthdate'], personal_id=fila['personal_id'], lugar=lugar, genero=genero)
                 session_mysql.add(persona)
                 # Saque tipo persona de Persona, se debe agregar en personas_titulaciones
-
             session_mysql.commit()
         except Exception as e:
             session_mysql.rollback()
@@ -110,5 +116,54 @@ def fill_db():
     #         errores = []
     #         errores.append(e)
     # print(errores)
+
+    # ---------------------------------------------------------------------------------------------------------
+
+    lista_profesores = []
+
+
+    for index, fila in cursos_profesoresDF.iterrows():
+        lista_profesores.append({**fila})
+ 
+    for fila in lista_profesores:
+        session_mysql.begin()
+        try:
+            campus = session_mysql.query(Campus).filter(
+                Campus.nombre == fila['campus']).first()
+            if campus == None:
+                campus = Campus(nombre=fila['campus'])
+                session_mysql.add(campus)
+
+            # Se procesa la dirección de la persona, insertando si corresponde los items faltantes
+            facultad = session_mysql.query(Facultad).filter(
+                Facultad.nombre == fila['program']).first()
+            if facultad == None:
+                facultad = Facultad(nombre=fila['program'])
+                session_mysql.add(facultad)
+
+            carrera = session_mysql.query(Carrera).filter(
+                Carrera.nombre == fila['branch']).first()
+            if carrera == None:
+                carrera = Carrera(nombre=fila['branch'])
+                session_mysql.add(carrera)
+            
+            universidad = session_mysql.query(Universidad).filter(
+                Universidad.nombre == fila['institute']).first()
+            if universidad == None:
+                universidad = Universidad(nombre=fila['institute'])
+                session_mysql.add(universidad)
+
+            titulaciones = session_mysql.query(Titulacion).filter(and_(
+                Titulacion.campus == campus, Titulacion.carrera == carrera, Titulacion.facultad == facultad, Titulacion.universidad == universidad)).first()
+            if titulaciones == None:
+                titulaciones = Titulacion(campus=campus, carrera=carrera,
+                              facultad=facultad, universidad=universidad)
+                session_mysql.add(titulaciones)
+
+            session_mysql.commit()
+        except Exception as e:
+            session_mysql.rollback()
+            lista_errores.append(fila)
+
     session_mysql.close()
     engine_mysql.dispose()
