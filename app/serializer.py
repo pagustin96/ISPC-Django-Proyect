@@ -70,6 +70,9 @@ class PersonasSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class PersonasTitulacionesSerializer(serializers.ModelSerializer):
+    persona = serializers.StringRelatedField()
+    tipo = serializers.StringRelatedField()
+    titulacion = serializers.StringRelatedField()
     class Meta:
         model = PersonasTitulaciones
         fields = '__all__'
@@ -85,6 +88,10 @@ class TiposPersonaSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class TitulacionesSerializer(serializers.ModelSerializer):
+    carrera = serializers.StringRelatedField()
+    facultad = serializers.StringRelatedField()
+    universidad = serializers.StringRelatedField()
+    campus = serializers.StringRelatedField()
     class Meta:
         model = Titulaciones
         fields = '__all__'
