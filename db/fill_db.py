@@ -3,15 +3,15 @@ import os
 from sqlalchemy.orm import declarative_base
 from sqlalchemy import and_
 from dotenv import load_dotenv
-from db.db import crear_conexion, obtener_session, bind_engine
-from db.entities.Pais import Pais
-from db.entities.Ciudad import Ciudad
-from db.entities.Barrio import Barrio
-from db.entities.Lugar import Lugar
-from db.entities.Provincia import Provincia
-from db.entities.TipoPersona import TipoPersona
-from db.entities.Persona import Persona
-from db.entities.Genero import Genero
+from db import crear_conexion, obtener_session, bind_engine
+from entities.Pais import Pais
+from entities.Ciudad import Ciudad
+from entities.Barrio import Barrio
+from entities.Lugar import Lugar
+from entities.Provincia import Provincia
+from entities.TipoPersona import TipoPersona
+from entities.Persona import Persona
+from entities.Genero import Genero
 
 def fill():
     load_dotenv()

@@ -1,8 +1,8 @@
 from sqlalchemy.orm import sessionmaker, declarative_base
 import os
 from dotenv import load_dotenv
-from db.db import crear_conexion, obtener_session, bind_engine, Base
-from db.entities import Persona, Barrio, Campus, Carrera, Ciudad, Facultad, Genero, Lugar, Pais, Provincia, TipoPersona, Titulacion, Universidad, PersonaTitulacion
+from db import crear_conexion, obtener_session, bind_engine, Base
+from entities import Persona, Barrio, Campus, Carrera, Ciudad, Facultad, Genero, Lugar, Pais, Provincia, TipoPersona, Titulacion, Universidad, PersonaTitulacion
 
 
 def create_db():

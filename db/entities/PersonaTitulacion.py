@@ -1,7 +1,7 @@
 from sqlalchemy import Column, Integer, String, Float, Date, ForeignKey
 from sqlalchemy.orm import relationship
 from datetime import date
-from db.db import Base
+from db import Base
 
 
 class PersonaTitulacion(Base):

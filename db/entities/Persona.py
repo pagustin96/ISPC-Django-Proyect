@@ -2,7 +2,7 @@ from sqlalchemy import Column, Integer, String, Float, Date, ForeignKey, case, f
 from sqlalchemy.orm import relationship, declarative_base
 from sqlalchemy.ext.hybrid import hybrid_property
 from datetime import date
-from db.db import Base
+from db import Base
 
 
 class Persona(Base):

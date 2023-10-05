@@ -1,6 +1,6 @@
 from sqlalchemy.orm import declarative_base, relationship
 from sqlalchemy import Column, String, Integer, UniqueConstraint, ForeignKey
-from db.db import Base
+from db import Base
 
 
 class Titulacion(Base):
