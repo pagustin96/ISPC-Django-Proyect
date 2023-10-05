@@ -1,50 +1,6 @@
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.db import models
 
 # Create your models here.
-
-class CustomUserManager(BaseUserManager):
-    def create_user(self, username, password=None, **extra_fields):
-        if not username:
-            raise ValueError('El nombre de usuario es obligatorio')
-        user = self.model(username=username, **extra_fields)
-        user.set_password(password)
-        user.save(using=self._db)
-        return user
-
-    def create_superuser(self, username, password=None, **extra_fields):
-        extra_fields.setdefault('is_staff', True)
-        extra_fields.setdefault('is_superuser', True)
-        return self.create_user(username, password, **extra_fields)
-
-class CustomUser(AbstractBaseUser, PermissionsMixin):
-    username = models.CharField(max_length=150, unique=True)
-    # Agrega otros campos personalizados si es necesario
-    is_active = models.BooleanField(default=True)
-    is_staff = models.BooleanField(default=False)
-    date_joined = models.DateTimeField(auto_now_add=True)
-
-    objects = CustomUserManager()
-
-    USERNAME_FIELD = 'username'
-
-        # Cambia los nombres de acceso inverso para evitar conflictos
-    groups = models.ManyToManyField(
-        'auth.Group',
-        related_name='customuser_set',  # Cambia 'user_set' a 'customuser_set'
-        related_query_name='user',
-        blank=True,
-        verbose_name='groups',
-    )
-
-    user_permissions = models.ManyToManyField(
-        'auth.Permission',
-        related_name='customuser_set',  # Cambia 'user_set' a 'customuser_set'
-        related_query_name='user',
-        blank=True,
-        verbose_name='user permissions',
-    )
-
 
 class Barrios(models.Model):
     nombre = models.CharField(unique=True, max_length=100, blank=True, null=True)
@@ -113,31 +69,14 @@ class Generos(models.Model):
         verbose_name = 'Genero'
         verbose_name_plural = "Generos"
     
-class Paises(models.Model):
-    nombre = models.CharField(unique=True, max_length=100, blank=True, null=True)
-    def __str__(self):
-        return self.nombre
-    class Meta:
-        db_table = 'paises'
-        verbose_name = 'Pais'
-        verbose_name_plural = "Paises"
-
-
-class Provincias(models.Model):
-    nombre = models.CharField(unique=True, max_length=100, blank=True, null=True)
-    def __str__(self):
-        return self.nombre
-    class Meta:
-        db_table = 'provincias'
-        verbose_name = 'Provincia'
-        verbose_name_plural = "Provincias"
+    
 
 
 class Lugares(models.Model):
-    pais = models.ForeignKey(Paises, models.DO_NOTHING, blank=True, null=True)
+    pais = models.ForeignKey('Paises', models.DO_NOTHING, blank=True, null=True)
     ciudad = models.ForeignKey(Ciudades, models.DO_NOTHING, blank=True, null=True)
     barrio = models.ForeignKey(Barrios, models.DO_NOTHING, blank=True, null=True)
-    provincia = models.ForeignKey(Provincias, models.DO_NOTHING, blank=True, null=True)
+    provincia = models.ForeignKey('Provincias', models.DO_NOTHING, blank=True, null=True)
     def __str__(self):
         return f'{self.ciudad},{self.provincia},{self.pais},{self.barrio}'
     class Meta:
@@ -146,6 +85,18 @@ class Lugares(models.Model):
         verbose_name = 'Lugar'
         verbose_name_plural = "Lugares"
     
+
+
+class Paises(models.Model):
+    nombre = models.CharField(unique=True, max_length=100, blank=True, null=True)
+    def __str__(self):
+        return self.nombre
+    class Meta:
+        db_table = 'paises'
+        verbose_name = 'Pais'
+        verbose_name_plural = "Paises"
+    
+
 
 class Personas(models.Model):
     nombre = models.CharField(max_length=100, blank=True, null=True)
@@ -163,6 +114,33 @@ class Personas(models.Model):
         verbose_name_plural = "Personas"
     
 
+
+class PersonasTitulaciones(models.Model):
+    persona = models.ForeignKey(Personas, models.DO_NOTHING, blank=True, null=True)
+    titulacion = models.ForeignKey('Titulaciones', models.DO_NOTHING, blank=True, null=True)
+    tipo = models.ForeignKey('TiposPersona', models.DO_NOTHING, blank=True, null=True)
+    def __str__(self):
+        return  f'{self.persona},{self.titulacion},{self.tipo}'
+    class Meta:
+        db_table = 'personas_titulaciones'
+        verbose_name = 'Persona Titulaciones'
+        verbose_name_plural = "PersonasTitulaciones"
+    
+
+
+
+class Provincias(models.Model):
+    nombre = models.CharField(unique=True, max_length=100, blank=True, null=True)
+    def __str__(self):
+        return self.nombre
+    class Meta:
+        db_table = 'provincias'
+        verbose_name = 'Provincia'
+        verbose_name_plural = "Provincias"
+    
+
+
+
 class TiposPersona(models.Model):
     nombre = models.CharField(unique=True, max_length=50, blank=True, null=True)
     def __str__(self):
@@ -171,21 +149,13 @@ class TiposPersona(models.Model):
         db_table = 'tipos_persona'
         verbose_name = 'Tipo de persona'
         verbose_name_plural = "Tipos de persona"
-
-class Universidades(models.Model):
-    nombre = models.CharField(unique=True, max_length=100, blank=True, null=True)
-    def __str__(self):
-        return self.nombre
-    class Meta:
-        db_table = 'universidades'
-        verbose_name = 'Universidad'
-        verbose_name_plural = "Universidades"
     
+
 
 class Titulaciones(models.Model):
     carrera = models.ForeignKey(Carreras, models.DO_NOTHING, blank=True, null=True)
     facultad = models.ForeignKey(Facultades, models.DO_NOTHING, blank=True, null=True)
-    universidad = models.ForeignKey(Universidades, models.DO_NOTHING, blank=True, null=True)
+    universidad = models.ForeignKey('Universidades', models.DO_NOTHING, blank=True, null=True)
     campus = models.ForeignKey(Campus, models.DO_NOTHING, blank=True, null=True)
     def __str__(self):
         return f'{self.carrera},{self.facultad},{self.universidad}'
@@ -198,13 +168,41 @@ class Titulaciones(models.Model):
     
 
 
-class PersonasTitulaciones(models.Model):
-    persona = models.ForeignKey(Personas, models.DO_NOTHING, blank=True, null=True)
-    titulacion = models.ForeignKey(Titulaciones, models.DO_NOTHING, blank=True, null=True)
-    tipo = models.ForeignKey(TiposPersona, models.DO_NOTHING, blank=True, null=True)
+class Universidades(models.Model):
+    nombre = models.CharField(unique=True, max_length=100, blank=True, null=True)
     def __str__(self):
-        return  f'{self.persona},{self.titulacion},{self.tipo}'
+        return self.nombre
     class Meta:
-        db_table = 'personas_titulaciones'
-        verbose_name = 'Persona Titulaciones'
-        verbose_name_plural = "PersonasTitulaciones"
+        db_table = 'universidades'
+        verbose_name = 'Universidad'
+        verbose_name_plural = "Universidades"
+    
+# Completar la carga de entidades respectivas de las carreras y sus relaciones con profesores y alumnos segun los datos de origen
+#
+#
+#
+
+
+# QUERYS
+
+###
+# persona = session_mysql.query(Persona).join(TipoPersona).join(Genero).filter(
+#     and_(TipoPersona.nombre == "Alumno", Genero.nombre == "Female")).first()
+
+# persona.__dict__
+
+# tipo = session_mysql.query(TipoPersona).filter(
+#     TipoPersona.nombre == 'Alumno').first()
+# alumnos = session_mysql.query(Persona).join(TipoPersona).join(
+#     Genero).filter(and_(Persona.age < 40, Persona.tipopersona == tipo)).all()
+
+# for cadaUno in alumnos:
+#     print(cadaUno.nombre, cadaUno.apellido, cadaUno.email, cadaUno.genero.nombre, cadaUno.birthdate, cadaUno.lugar.pais.nombre, cadaUno.personal_id,
+#           cadaUno.lugar.ciudad.nombre, cadaUno.lugar.barrio.nombre, cadaUno.lugar.provincia.nombre, cadaUno.tipopersona.nombre, cadaUno.age)
+
+
+# todos = session_mysql.query(Persona).join(
+#     TipoPersona).join(Genero).filter(Persona.age > 40).all()
+# for cadaUno in todos:
+#     print(cadaUno.nombre, cadaUno.apellido, cadaUno.email, cadaUno.genero.nombre, cadaUno.birthdate, cadaUno.lugar.pais.nombre, cadaUno.personal_id,
+#           cadaUno.lugar.ciudad.nombre, cadaUno.lugar.barrio.nombre, cadaUno.lugar.provincia.nombre, cadaUno.tipopersona.nombre, cadaUno.age)
