@@ -197,7 +197,6 @@ def fill_db():
                 persona_titulacion = PersonaTitulacion( tipo=tipopersona, persona=persona)
                 session_mysql.add(persona_titulacion)
                 
-            print('fill personasTitulaciones')
             
             session_mysql.commit()
         except Exception as e:
