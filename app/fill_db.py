@@ -167,7 +167,7 @@ def fill_db():
 
 
 
-    personas_titulacionesDF = pd.concat([profesoresDF, alumnosDF]))
+    personas_titulacionesDF = pd.concat([profesoresDF, alumnosDF])
 
     lista_personasTitulaciones = []
 
