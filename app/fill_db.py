@@ -29,14 +29,16 @@ def fill_db():
         os.getenv('DIALECT'), os.getenv('USER'), os.getenv('PASSWORD'), os.getenv('HOST'), os.getenv('DB'))
     session_mysql = obtener_session(engine_mysql)
 
-    profesoresDF = pd.read_csv("raw_data/Profesores.csv")
+    profesoresDF = pd.read_csv("app/raw_data/Profesores.csv")
     # Agregamos esta nueva columna con la constante profesor en el tipo de persona para este DF
     profesoresDF["tipopersona"] = "profesor"
+    profesoresDF["tipo_id"] = "1"
 
-    alumnosDF = pd.read_csv("raw_data/Alumnos.csv")
+    alumnosDF = pd.read_csv("app/raw_data/Alumnos.csv")
     # Agregamos esta nueva columna con la constante alumno en el tipo de persona para este DF
     alumnosDF["tipopersona"] = "alumno"
-    cursos_profesoresDF = pd.read_csv("raw_data/cursos_profesores.csv")
+    alumnosDF["tipo_id"] = "2"
+    cursos_profesoresDF = pd.read_csv("app/raw_data/cursos_profesores.csv")
 
     ###
 
@@ -158,20 +160,21 @@ def fill_db():
                 titulaciones = Titulacion(campus=campus, carrera=carrera,
                               facultad=facultad, universidad=universidad)
                 session_mysql.add(titulaciones)
-
+        
             session_mysql.commit()
         except Exception as e:
             session_mysql.rollback()
             lista_errores.append(fila)
+        
+    print('fill Titulaciones')
 #---------------------------------------------------------------------------------
 
 
 
-    personas_titulacionesDF = pd.concat([profesoresDF, alumnosDF])
 
     lista_personasTitulaciones = []
 
-    for index, fila in personas_titulacionesDF.iterrows():
+    for index, fila in personasDF.iterrows():
         lista_personasTitulaciones.append({**fila})
 
     for fila in lista_personasTitulaciones:
@@ -183,26 +186,25 @@ def fill_db():
             if persona == None:
                 persona = Persona( id=fila['personal_id'])
                 session_mysql.add(persona)
-            
-            tipopersona = session_mysql.query(TipoPersona).filter(
-                TipoPersona.nombre == fila['tipopersona']).first()
-            if tipopersona == None:
-                tipopersona = TipoPersona(nombre=fila['tipopersona'])
-                session_mysql.add(tipopersona)          
+                    
 
+            tipopersona = session_mysql.query(TipoPersona).filter(
+                TipoPersona.id == fila['tipo_id']).first()
+            if tipopersona == None:
+                tipopersona = TipoPersona(nombre=fila['tipo_id'])
+                session_mysql.add(tipopersona)       
+            
             # La persona_titulacion se inserta al final porque se necesitan las entidades de genero, tipopersona y lugar ya cargadas
             persona_titulacion = session_mysql.query(PersonaTitulacion).filter(and_(
-            PersonaTitulacion.tipo == tipopersona, PersonaTitulacion.persona == persona)).first()
+            PersonaTitulacion.tipo_id == tipopersona, PersonaTitulacion.persona_id == persona)).first()
             if persona_titulacion == None:
-                persona_titulacion = PersonaTitulacion( tipo=tipopersona, persona=persona)
+                persona_titulacion = PersonaTitulacion( tipo_id=tipopersona.id, persona_id=persona.id, titulacion_id=None)
                 session_mysql.add(persona_titulacion)
-                
-            print('fill personasTitulaciones')
+            print("TipoPersona ID:", persona.id)
             
             session_mysql.commit()
         except Exception as e:
             session_mysql.rollback()
             lista_errores.append(fila)
-
     session_mysql.close()
     engine_mysql.dispose()
