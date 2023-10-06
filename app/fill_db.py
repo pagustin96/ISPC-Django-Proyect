@@ -188,9 +188,7 @@ def fill_db():
                 TipoPersona.nombre == fila['tipopersona']).first()
             if tipopersona == None:
                 tipopersona = TipoPersona(nombre=fila['tipopersona'])
-                session_mysql.add(tipopersona)
-            print('fill personasTitulaciones')
-            session_mysql.commit()
+                session_mysql.add(tipopersona)          
 
             # La persona_titulacion se inserta al final porque se necesitan las entidades de genero, tipopersona y lugar ya cargadas
             persona_titulacion = session_mysql.query(PersonaTitulacion).filter(and_(
@@ -198,6 +196,10 @@ def fill_db():
             if persona_titulacion == None:
                 persona_titulacion = PersonaTitulacion( tipo=tipopersona, persona=persona)
                 session_mysql.add(persona_titulacion)
+                
+            print('fill personasTitulaciones')
+            
+            session_mysql.commit()
         except Exception as e:
             session_mysql.rollback()
             lista_errores.append(fila)
