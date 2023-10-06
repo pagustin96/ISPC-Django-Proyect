@@ -134,10 +134,10 @@ class Provincias(models.Model):
 
 
 class Lugares(models.Model):
-    pais = models.ForeignKey(Paises, models.DO_NOTHING, blank=True, null=True)
-    ciudad = models.ForeignKey(Ciudades, models.DO_NOTHING, blank=True, null=True)
-    barrio = models.ForeignKey(Barrios, models.DO_NOTHING, blank=True, null=True)
-    provincia = models.ForeignKey(Provincias, models.DO_NOTHING, blank=True, null=True)
+    pais = models.ForeignKey(Paises, models.PROTECT, blank=True, null=True)
+    ciudad = models.ForeignKey(Ciudades, models.PROTECT, blank=True, null=True)
+    barrio = models.ForeignKey(Barrios, models.PROTECT, blank=True, null=True)
+    provincia = models.ForeignKey(Provincias, models.PROTECT, blank=True, null=True)
     def __str__(self):
         return f'{self.ciudad},{self.provincia},{self.pais},{self.barrio}'
     class Meta:
@@ -153,8 +153,8 @@ class Personas(models.Model):
     email = models.CharField(unique=True, max_length=255, blank=True, null=True)
     birthdate = models.DateField(blank=True, null=True)
     personal_id = models.CharField(unique=True, max_length=50, blank=True, null=True)
-    genero = models.ForeignKey(Generos, models.DO_NOTHING, blank=True, null=True)
-    lugar = models.ForeignKey(Lugares, models.DO_NOTHING, blank=True, null=True)
+    genero = models.ForeignKey(Generos, models.PROTECT, blank=True, null=True)
+    lugar = models.ForeignKey(Lugares, models.PROTECT, blank=True, null=True)
     def __str__(self):
         return f'{self.nombre},{self.apellido}'
     class Meta:
@@ -183,10 +183,10 @@ class Universidades(models.Model):
     
 
 class Titulaciones(models.Model):
-    carrera = models.ForeignKey(Carreras, models.DO_NOTHING, blank=True, null=True)
-    facultad = models.ForeignKey(Facultades, models.DO_NOTHING, blank=True, null=True)
-    universidad = models.ForeignKey(Universidades, models.DO_NOTHING, blank=True, null=True)
-    campus = models.ForeignKey(Campus, models.DO_NOTHING, blank=True, null=True)
+    carrera = models.ForeignKey(Carreras, models.PROTECT, blank=True, null=True)
+    facultad = models.ForeignKey(Facultades, models.PROTECT, blank=True, null=True)
+    universidad = models.ForeignKey(Universidades, models.PROTECT, blank=True, null=True)
+    campus = models.ForeignKey(Campus, models.PROTECT, blank=True, null=True)
     def __str__(self):
         return f'{self.carrera},{self.facultad},{self.universidad}'
 
@@ -199,9 +199,9 @@ class Titulaciones(models.Model):
 
 
 class PersonasTitulaciones(models.Model):
-    persona = models.ForeignKey(Personas, models.DO_NOTHING, blank=True, null=True)
-    titulacion = models.ForeignKey(Titulaciones, models.DO_NOTHING, blank=True, null=True)
-    tipo = models.ForeignKey(TiposPersona, models.DO_NOTHING, blank=True, null=True)
+    persona = models.ForeignKey(Personas, models.PROTECT, blank=True, null=True)
+    titulacion = models.ForeignKey(Titulaciones, models.PROTECT, blank=True, null=True)
+    tipo = models.ForeignKey(TiposPersona, models.PROTECT, blank=True, null=True)
     def __str__(self):
         return  f'{self.persona},{self.titulacion},{self.tipo}'
     class Meta:
