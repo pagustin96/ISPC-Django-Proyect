@@ -29,14 +29,14 @@ def fill_db():
         os.getenv('DIALECT'), os.getenv('USER'), os.getenv('PASSWORD'), os.getenv('HOST'), os.getenv('DB'))
     session_mysql = obtener_session(engine_mysql)
 
-    profesoresDF = pd.read_csv("raw_data/Profesores.csv")
+    profesoresDF = pd.read_csv("app/raw_data/Profesores.csv")
     # Agregamos esta nueva columna con la constante profesor en el tipo de persona para este DF
     profesoresDF["tipopersona"] = "profesor"
 
-    alumnosDF = pd.read_csv("raw_data/Alumnos.csv")
+    alumnosDF = pd.read_csv("app/raw_data/Alumnos.csv")
     # Agregamos esta nueva columna con la constante alumno en el tipo de persona para este DF
     alumnosDF["tipopersona"] = "alumno"
-    cursos_profesoresDF = pd.read_csv("raw_data/cursos_profesores.csv")
+    cursos_profesoresDF = pd.read_csv("app/raw_data/cursos_profesores.csv")
 
     ###
 
