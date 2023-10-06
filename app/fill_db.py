@@ -179,9 +179,9 @@ def fill_db():
         try:
             
             persona = session_mysql.query(Persona).filter(
-                Persona.id == fila['id']).first()
+                Persona.personal_id == fila['personal_id']).first()
             if persona == None:
-                persona = Persona( id=fila['id'])
+                persona = Persona( id=fila['personal_id'])
                 session_mysql.add(persona)
             
             tipopersona = session_mysql.query(TipoPersona).filter(
