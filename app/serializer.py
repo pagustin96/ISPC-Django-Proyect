@@ -1,5 +1,22 @@
 from rest_framework import serializers
-from .models import Barrios, Campus, Carreras, Ciudades, Facultades, Generos, Lugares, Paises, Personas, PersonasTitulaciones, Provincias, TiposPersona, Titulaciones, Universidades
+from .models import Barrios, Campus, Carreras, Ciudades, Facultades, Generos, Lugares, Paises, Personas, PersonasTitulaciones, Provincias, TiposPersona, Titulaciones, Universidades, CustomUser
+
+class CustomUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomUser
+        fields = ('username', 'password')  # Campos a incluir en la creación de usuario
+        extra_kwargs = {'password': {'write_only': True}}
+
+    def create(self, validated_data):
+        username = validated_data['username']
+        password = validated_data['password']
+        if CustomUser.objects.filter(username=username).exists():
+            raise serializers.ValidationError('Ya existe un usuario con este nombre de usuario.')
+        user = CustomUser(username=username)
+        user.set_password(password)
+        user.save()
+        return user
+
 
 class BarriosSerializer(serializers.ModelSerializer):
     class Meta:
@@ -32,6 +49,10 @@ class GenerosSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class LugaresSerializer(serializers.ModelSerializer):
+    pais = serializers.StringRelatedField()
+    ciudad = serializers.StringRelatedField()
+    barrio = serializers.StringRelatedField()
+    provincia = serializers.StringRelatedField()
     class Meta:
         model = Lugares
         fields = '__all__'
@@ -42,11 +63,16 @@ class PaisesSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class PersonasSerializer(serializers.ModelSerializer):
+    genero = serializers.StringRelatedField()
+    lugar = serializers.StringRelatedField()
     class Meta:
         model = Personas
         fields = '__all__'
 
 class PersonasTitulacionesSerializer(serializers.ModelSerializer):
+    persona = serializers.StringRelatedField()
+    tipo = serializers.StringRelatedField()
+    titulacion = serializers.StringRelatedField()
     class Meta:
         model = PersonasTitulaciones
         fields = '__all__'
@@ -62,6 +88,10 @@ class TiposPersonaSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class TitulacionesSerializer(serializers.ModelSerializer):
+    carrera = serializers.StringRelatedField()
+    facultad = serializers.StringRelatedField()
+    universidad = serializers.StringRelatedField()
+    campus = serializers.StringRelatedField()
     class Meta:
         model = Titulaciones
         fields = '__all__'
