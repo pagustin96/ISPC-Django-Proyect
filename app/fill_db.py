@@ -109,6 +109,13 @@ def fill_db():
                 persona = Persona(nombre=fila['first_name'], apellido=fila['last_name'], email=fila['email'],
                                   birthdate=fila['birthdate'], personal_id=fila['personal_id'], lugar=lugar, genero=genero)
                 session_mysql.add(persona)
+
+            # La persona_titulacion se inserta al final porque se necesitan las entidades de genero, tipopersona y lugar ya cargadas
+            persona_titulacion = session_mysql.query(PersonaTitulacion).filter(PersonaTitulacion.persona_id == persona.id).first()
+            if persona_titulacion == None:
+                persona_titulacion = PersonaTitulacion( tipo_id=fila['tipo_id'], persona_id=persona)
+                session_mysql.add(persona_titulacion)
+            print("PersonaTitulaciones:", persona_titulacion.tipo_id)
                 # Saque tipo persona de Persona, se debe agregar en personas_titulaciones
             session_mysql.commit()
         except Exception as e:
@@ -168,43 +175,3 @@ def fill_db():
         
     print('fill Titulaciones')
 #---------------------------------------------------------------------------------
-
-
-
-
-    lista_personasTitulaciones = []
-
-    for index, fila in personasDF.iterrows():
-        lista_personasTitulaciones.append({**fila})
-
-    for fila in lista_personasTitulaciones:
-        session_mysql.begin()
-        try:
-            
-            persona = session_mysql.query(Persona).filter(
-                Persona.personal_id == fila['personal_id']).first()
-            if persona == None:
-                persona = Persona( id=fila['personal_id'])
-                session_mysql.add(persona)
-                    
-
-            tipopersona = session_mysql.query(TipoPersona).filter(
-                TipoPersona.id == fila['tipo_id']).first()
-            if tipopersona == None:
-                tipopersona = TipoPersona(nombre=fila['tipo_id'])
-                session_mysql.add(tipopersona)       
-            
-            # La persona_titulacion se inserta al final porque se necesitan las entidades de genero, tipopersona y lugar ya cargadas
-            persona_titulacion = session_mysql.query(PersonaTitulacion).filter(and_(
-            PersonaTitulacion.tipo_id == tipopersona, PersonaTitulacion.persona_id == persona)).first()
-            if persona_titulacion == None:
-                persona_titulacion = PersonaTitulacion( tipo_id=tipopersona.id, persona_id=persona.id, titulacion_id=None)
-                session_mysql.add(persona_titulacion)
-            print("TipoPersona ID:", persona.id)
-            
-            session_mysql.commit()
-        except Exception as e:
-            session_mysql.rollback()
-            lista_errores.append(fila)
-    session_mysql.close()
-    engine_mysql.dispose()
