@@ -20,6 +20,13 @@ from .entities.Facultad import Facultad
 from .entities.Titulacion import Titulacion
 from .entities.PersonaTitulacion import PersonaTitulacion
 
+from .entities.Campus import Campus
+from .entities.Carrera import Carrera
+from .entities.Universidad import Universidad
+from .entities.Facultad import Facultad
+from .entities.Titulacion import Titulacion
+from .entities.PersonaTitulacion import PersonaTitulacion
+
 
 def fill_db():
     load_dotenv()
@@ -38,7 +45,18 @@ def fill_db():
     alumnosDF["tipopersona"] = "alumno"
     cursos_profesoresDF = pd.read_csv("app/raw_data/cursos_profesores.csv")
 
+    ### ACA TIENEN QUE ITERAR EL ARCHIVO cursos_profesoresDF y hacer la misma logica de personasDF cambiando el nombre de los campos
+    ### tambien hay que importar las entities que faltan de la carpeta entities (ej: campus, universidades, etc) 
+
+    ### for fila in cursos_profesoresDF:
     ###
+
+
+
+
+
+
+
 
     personasDF = pd.concat([profesoresDF, alumnosDF])
 
@@ -50,7 +68,7 @@ def fill_db():
     
     
     # Nuevo dataframe desde la unión de los DF de profesores y alumnos
-
+    ### ESTA ES LA LOGICA QUE TIENEN QUE COPIAR
     for fila in lista_personas:
         session_mysql.begin()
         try:
@@ -100,18 +118,15 @@ def fill_db():
                 tipopersona = TipoPersona(nombre=fila['tipopersona'])
                 session_mysql.add(tipopersona)
 
-            # La persona se inserta al final porque se necesitan las entidades de genero, tipopersona y lugar ya cargadas
+            # La persona se inserta al final porque se necesitan las entidades de genero, tipopersona y lugar ya cargadas testttt
             persona = session_mysql.query(Persona).filter(
                 Persona.personal_id == fila['personal_id']).first()
             if persona == None:
                 persona = Persona(nombre=fila['first_name'], apellido=fila['last_name'], email=fila['email'],
                                   birthdate=fila['birthdate'], personal_id=fila['personal_id'], lugar=lugar, genero=genero)
                 session_mysql.add(persona)
-            persona_titulacion = session_mysql.query(PersonaTitulacion).filter(PersonaTitulacion.persona_id == persona.id).first()
-            if persona_titulacion == None:
-                persona_titulacion = PersonaTitulacion( tipo_id=fila['tipo_id'], persona_id=persona)
-                session_mysql.add(persona_titulacion)
-            print("PersonaTitulaciones:", persona_titulacion.tipo_id)
+                # Saque tipo persona de Persona, se debe agregar en personas_titulaciones
+
             session_mysql.commit()
         except Exception as e:
             session_mysql.rollback()
