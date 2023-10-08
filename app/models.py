@@ -139,8 +139,7 @@ class Paises(models.Model):
         db_table = 'paises'
         verbose_name = 'Pais'
         verbose_name_plural = "Paises"
-    
-
+        
 
 class Personas(models.Model):
     nombre = models.CharField(max_length=100, blank=True, null=True)

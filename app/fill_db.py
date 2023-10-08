@@ -32,7 +32,18 @@ def fill_db():
 
     cursos_profesoresDF = pd.read_csv("raw_data/cursos_profesores.csv")
 
+    ### ACA TIENEN QUE ITERAR EL ARCHIVO cursos_profesoresDF y hacer la misma logica de personasDF cambiando el nombre de los campos
+    ### tambien hay que importar las entities que faltan de la carpeta entities (ej: campus, universidades, etc) 
+
+    ### for fila in cursos_profesoresDF:
     ###
+
+
+
+
+
+
+
 
     personasDF = pd.concat([profesoresDF, alumnosDF])
 
@@ -45,7 +56,7 @@ def fill_db():
     ##########
 
     # Nuevo dataframe desde la unión de los DF de profesores y alumnos
-
+    ### ESTA ES LA LOGICA QUE TIENEN QUE COPIAR
     for fila in lista_personas:
         session_mysql.begin()
         try:
