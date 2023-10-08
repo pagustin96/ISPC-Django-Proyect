@@ -20,13 +20,6 @@ from .entities.Facultad import Facultad
 from .entities.Titulacion import Titulacion
 from .entities.PersonaTitulacion import PersonaTitulacion
 
-from .entities.Campus import Campus
-from .entities.Carrera import Carrera
-from .entities.Universidad import Universidad
-from .entities.Facultad import Facultad
-from .entities.Titulacion import Titulacion
-from .entities.PersonaTitulacion import PersonaTitulacion
-
 
 def fill_db():
     load_dotenv()
@@ -50,13 +43,6 @@ def fill_db():
 
     ### for fila in cursos_profesoresDF:
     ###
-
-
-
-
-
-
-
 
     personasDF = pd.concat([profesoresDF, alumnosDF])
 
