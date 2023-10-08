@@ -118,7 +118,7 @@ def fill_db():
                 tipopersona = TipoPersona(nombre=fila['tipopersona'])
                 session_mysql.add(tipopersona)
 
-            # La persona se inserta al final porque se necesitan las entidades de genero, tipopersona y lugar ya cargadas
+            # La persona se inserta al final porque se necesitan las entidades de genero, tipopersona y lugar ya cargadas testttt
             persona = session_mysql.query(Persona).filter(
                 Persona.personal_id == fila['personal_id']).first()
             if persona == None:
