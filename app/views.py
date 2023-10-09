@@ -8,7 +8,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.authtoken.models import Token
 from django.utils import timezone
-from .serializer import BarriosSerializer, CampusSerializer, CarrerasSerializer, CiudadesSerializer, FacultadesSerializer, GenerosSerializer, LugaresSerializer, PaisesSerializer, PersonasSerializer, PersonasTitulacionesSerializer, ProvinciasSerializer, TiposPersonaSerializer, TitulacionesSerializer, UniversidadesSerializer, CustomUserSerializer
+from .serializer import BarriosSerializer, CampusSerializer, CarrerasSerializer, CiudadesSerializer, FacultadesSerializer, GenerosSerializer, LugaresSerializer, LugaresGetSerializer, PaisesSerializer, PersonasSerializer, PersonasGetSerializer, PersonasTitulacionesSerializer, PersonasTitulacionesGetSerializer, ProvinciasSerializer, TiposPersonaSerializer, TitulacionesSerializer, TitulacionesGetSerializer, UniversidadesSerializer, CustomUserSerializer
 from .models import Barrios, Campus, Carreras, Ciudades, Facultades, Generos, Lugares, Paises, Personas, PersonasTitulaciones, Provincias, TiposPersona, Titulaciones, Universidades, CustomUser
 
 
@@ -72,32 +72,46 @@ class GenerosView(viewsets.ModelViewSet):
     queryset = Generos.objects.all()
 
 class LugaresView(viewsets.ModelViewSet):
-    serializer_class = LugaresSerializer
     queryset = Lugares.objects.all()
+    def get_serializer_class(self):
+        if self.action in ['retrieve', 'list']:
+            return LugaresGetSerializer  # Usar el serializador específico para GET
+        return LugaresSerializer  # Usar el serializador original para otras operaciones
 
 class PaisesView(viewsets.ModelViewSet):
     serializer_class = PaisesSerializer
     queryset = Paises.objects.all()
 
 class PersonasView(viewsets.ModelViewSet):
-    serializer_class = PersonasSerializer
     queryset = Personas.objects.all()
+    def get_serializer_class(self):
+        if self.action in ['retrieve', 'list']:
+            return PersonasGetSerializer  # Usar el serializador específico para GET
+        return PersonasSerializer  # Usar el serializador original para otras operaciones
 
 class PersonasTitulacionesView(viewsets.ModelViewSet):
-    serializer_class = PersonasTitulacionesSerializer
     queryset = PersonasTitulaciones.objects.all()
+    def get_serializer_class(self):
+        if self.action in ['retrieve', 'list']:
+            return PersonasTitulacionesGetSerializer  # Usar el serializador específico para GET
+        return PersonasTitulacionesSerializer  # Usar el serializador original para otras operaciones
+    
 
 class ProvinciasView(viewsets.ModelViewSet):
     serializer_class = ProvinciasSerializer
     queryset = Provincias.objects.all()
+
 
 class TipoPersonaView(viewsets.ModelViewSet):
     serializer_class = TiposPersonaSerializer
     queryset = TiposPersona.objects.all()
 
 class TitulacionesView(viewsets.ModelViewSet):
-    serializer_class = TitulacionesSerializer
     queryset = Titulaciones.objects.all()
+    def get_serializer_class(self):
+        if self.action in ['retrieve', 'list']:
+            return TitulacionesGetSerializer  # Usar el serializador específico para GET
+        return TitulacionesSerializer  # Usar el serializador original para otras operaciones
 
 class universidadesView(viewsets.ModelViewSet):
     serializer_class = UniversidadesSerializer

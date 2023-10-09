@@ -4,5 +4,8 @@
 *.pyc 
 **/__pycache__/
 .env
+<<<<<<< HEAD
 app/__pycache__/*.pyc
 ISPC_API_REST/__pycache__/*.pyc
+=======
+>>>>>>> origin/main

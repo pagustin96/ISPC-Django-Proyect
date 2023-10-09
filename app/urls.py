@@ -34,35 +34,3 @@ urlpatterns = [
     path('api/v1/login', LoginView.as_view(), name='login'),
     path('api/v1/db', create_db, name='db') 
 ]
-
-
-'''
-///// modificacion para setear basse de datos
-
-from .db import fill_db
-
-
-
-def fill_db_view(request):
-    result = fill_db()  # Llama a la función fill_db
-    if result:
-            return JsonResponse({'message': 'Datos cargados con éxito'}, status=201)
-    else:
-        return JsonResponse({'error': 'Hubo un problema al cargar los datos'}, status=500)
-urlpatterns = [
-    path('api/v1/', include([
-        path('barrios/', views.BarriosView.as_view({'get': 'list', 'post': 'create'}), name='barrios-list'),
-        path('campus/', views.CampusView.as_view({'get': 'list', 'post': 'create'}), name='campus-list'),
-        path('carreras/', views.CarrerasView.as_view({'get': 'list', 'post': 'create'}), name='carreras-list'),
-        # ... otras rutas para tus viewsets ...
-
-        # Agrega la ruta para llamar a la función fill_db_view
-        
-        path('filldb/', fill_db_view, name='filldb'),
-        
-    ])),
-    path('docs/', include_docs_urls(title='App API')),
-]
-
-
-'''

@@ -37,9 +37,9 @@ def fill_db():
     alumnosDF = pd.read_csv("app/raw_data/Alumnos.csv")
     # Agregamos esta nueva columna con la constante alumno en el tipo de persona para este DF
     alumnosDF["tipopersona"] = "alumno"
-    alumnosDF["tipo_id"] = "2"
-    cursos_profesoresDF = pd.read_csv("app/raw_data/cursos_profesores.csv")
+    cursos_profesoresDF = pd.read_csv("raw_data/cursos_profesores.csv")
 
+    ### for fila in cursos_profesoresDF:
     ###
 
     personasDF = pd.concat([profesoresDF, alumnosDF])
@@ -52,7 +52,7 @@ def fill_db():
     
     
     # Nuevo dataframe desde la unión de los DF de profesores y alumnos
-
+    ### ESTA ES LA LOGICA QUE TIENEN QUE COPIAR
     for fila in lista_personas:
         session_mysql.begin()
         try:
@@ -102,7 +102,7 @@ def fill_db():
                 tipopersona = TipoPersona(nombre=fila['tipopersona'])
                 session_mysql.add(tipopersona)
 
-            # La persona se inserta al final porque se necesitan las entidades de genero, tipopersona y lugar ya cargadas
+            # La persona se inserta al final porque se necesitan las entidades de genero, tipopersona y lugar ya cargadas testttt
             persona = session_mysql.query(Persona).filter(
                 Persona.personal_id == fila['personal_id']).first()
             if persona == None:
@@ -117,6 +117,7 @@ def fill_db():
                 session_mysql.add(persona_titulacion)
             print("PersonaTitulaciones:", persona_titulacion.tipo_id)
                 # Saque tipo persona de Persona, se debe agregar en personas_titulaciones
+
             session_mysql.commit()
         except Exception as e:
             session_mysql.rollback()
@@ -175,3 +176,5 @@ def fill_db():
         
     print('fill Titulaciones')
 #---------------------------------------------------------------------------------
+    session_mysql.close()
+    engine_mysql.dispose()
