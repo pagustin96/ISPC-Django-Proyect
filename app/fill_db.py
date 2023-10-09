@@ -32,14 +32,14 @@ def fill_db():
     profesoresDF = pd.read_csv("app/raw_data/Profesores.csv")
     # Agregamos esta nueva columna con la constante profesor en el tipo de persona para este DF
     profesoresDF["tipopersona"] = "profesor"
-    profesoresDF["tipo_id"] = "1"
 
     alumnosDF = pd.read_csv("app/raw_data/Alumnos.csv")
     # Agregamos esta nueva columna con la constante alumno en el tipo de persona para este DF
     alumnosDF["tipopersona"] = "alumno"
-    alumnosDF["tipo_id"] = "2"
     cursos_profesoresDF = pd.read_csv("app/raw_data/cursos_profesores.csv")
-
+    
+    ### ACA TIENEN QUE ITERAR EL ARCHIVO cursos_profesoresDF y hacer la misma logica de personasDF cambiando el nombre de los campos
+    ### tambien hay que importar las entities que faltan de la carpeta entities (ej: campus, universidades, etc) 
     ### for fila in cursos_profesoresDF:
     ###
 
@@ -172,6 +172,7 @@ def fill_db():
         except Exception as e:
             session_mysql.rollback()
             lista_errores.append(fila)
+    print('Fill personas')   
 #---------------------------------------------------------------------------------
     session_mysql.close()
     engine_mysql.dispose()
