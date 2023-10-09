@@ -124,7 +124,7 @@ def fill_db():
     #         errores = []
     #         errores.append(e)
     # print(errores)
-    print('Fill personas')   
+    print('Fill personas y personastitulaciones')   
     # ---------------------------------------------------------------------------------------------------------
 
     lista_profesores = []
@@ -172,7 +172,7 @@ def fill_db():
         except Exception as e:
             session_mysql.rollback()
             lista_errores.append(fila)
-    print('Fill personas')   
+    print('Fill titulaciones')   
 #---------------------------------------------------------------------------------
     session_mysql.close()
     engine_mysql.dispose()
