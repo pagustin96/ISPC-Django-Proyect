@@ -37,10 +37,9 @@ def fill_db():
     # Agregamos esta nueva columna con la constante alumno en el tipo de persona para este DF
     alumnosDF["tipopersona"] = "alumno"
     cursos_profesoresDF = pd.read_csv("app/raw_data/cursos_profesores.csv")
-
+    
     ### ACA TIENEN QUE ITERAR EL ARCHIVO cursos_profesoresDF y hacer la misma logica de personasDF cambiando el nombre de los campos
     ### tambien hay que importar las entities que faltan de la carpeta entities (ej: campus, universidades, etc) 
-
     ### for fila in cursos_profesoresDF:
     ###
 
@@ -111,8 +110,13 @@ def fill_db():
                 persona = Persona(nombre=fila['first_name'], apellido=fila['last_name'], email=fila['email'],
                                   birthdate=fila['birthdate'], personal_id=fila['personal_id'], lugar=lugar, genero=genero)
                 session_mysql.add(persona)
-                # Saque tipo persona de Persona, se debe agregar en personas_titulaciones
 
+            # La persona_titulacion se inserta al final porque se necesitan las entidades de genero, tipopersona y lugar ya cargadas
+            persona_titulacion = session_mysql.query(PersonaTitulacion).filter(and_(
+            PersonaTitulacion.tipo_id == tipopersona.id, PersonaTitulacion.persona_id == persona.id)).first()
+            if persona_titulacion == None:
+                persona_titulacion = PersonaTitulacion( tipo_id=tipopersona.id, persona_id=persona.id, titulacion_id=None)
+                session_mysql.add(persona_titulacion)
             session_mysql.commit()
         except Exception as e:
             session_mysql.rollback()
@@ -120,7 +124,7 @@ def fill_db():
     #         errores = []
     #         errores.append(e)
     # print(errores)
-
+    print('Fill personas y personastitulaciones')   
     # ---------------------------------------------------------------------------------------------------------
 
     lista_profesores = []
@@ -163,11 +167,12 @@ def fill_db():
                 titulaciones = Titulacion(campus=campus, carrera=carrera,
                               facultad=facultad, universidad=universidad)
                 session_mysql.add(titulaciones)
-
+        
             session_mysql.commit()
         except Exception as e:
             session_mysql.rollback()
             lista_errores.append(fila)
+    print('Fill titulaciones')   
 #---------------------------------------------------------------------------------
     session_mysql.close()
     engine_mysql.dispose()
