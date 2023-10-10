@@ -211,7 +211,7 @@ class Personas(models.Model):
     genero = models.ForeignKey(Generos, models.PROTECT, blank=True, null=True)
     lugar = models.ForeignKey(Lugares, models.PROTECT, blank=True, null=True)
     def __str__(self):
-        return f'{self.nombre},{self.apellido}'
+        return f'{self.nombre},{self.apellido},{self.email},{self.birthdate},{self.personal_id},{self.genero},{self.lugar}'
     class Meta:
         db_table = 'personas'
         verbose_name = 'persona'
