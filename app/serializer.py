@@ -55,14 +55,6 @@ class PaisesSerializer(serializers.ModelSerializer):
         model = Paises
         fields = '__all__'
 
-class PersonasTitulacionesGetSerializer(serializers.ModelSerializer):
-    persona = serializers.StringRelatedField()
-    tipo = serializers.StringRelatedField()
-    titulacion = serializers.StringRelatedField()
-    class Meta:
-        model = PersonasTitulaciones
-        fields = '__all__'
-
 class PersonasTitulacionesSerializer(serializers.ModelSerializer):
     persona = serializers.PrimaryKeyRelatedField(queryset=Personas.objects.all())
     tipo = serializers.PrimaryKeyRelatedField(queryset=TiposPersona.objects.all())
@@ -136,4 +128,12 @@ class PersonasGetSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Personas
+        fields = '__all__'
+
+class PersonasTitulacionesGetSerializer(serializers.ModelSerializer):
+    persona = PersonasGetSerializer()
+    tipo = serializers.StringRelatedField()
+    titulacion = TitulacionesGetSerializer()
+    class Meta:
+        model = PersonasTitulaciones
         fields = '__all__'
