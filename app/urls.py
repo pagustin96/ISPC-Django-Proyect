@@ -4,9 +4,8 @@ from rest_framework import routers
 from rest_framework.response import Response
 from rest_framework import status
 from django.http import JsonResponse
-from .views import CreateUserView, LoginView
+from django.urls import re_path
 from.create_db import create_db
-
 from app import views
 
 
@@ -28,9 +27,10 @@ router.register(r'universidades', views.universidadesView, 'universidades')
 
 
 urlpatterns = [
+    re_path('signup', views.signup),    
+    re_path('login', views.login),
+    re_path('test_token', views.test_token),
     path('api/v1/', include(router.urls)),
     path('docs/', include_docs_urls(title='App API')),
-    path('api/v1/create_user', CreateUserView.as_view(), name='create_user'),
-    path('api/v1/login', LoginView.as_view(), name='login'),
-    path('api/v1/db', create_db, name='db') 
+    path('api/v1/db', create_db, name='db'),
 ]
