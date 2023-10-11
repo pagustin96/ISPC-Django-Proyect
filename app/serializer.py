@@ -124,7 +124,7 @@ class PersonasSerializer(serializers.ModelSerializer):
   
 class PersonasGetSerializer(serializers.ModelSerializer):
     genero = serializers.StringRelatedField()
-    lugar = serializers.StringRelatedField()
+    lugar = LugaresGetSerializer()
     
     class Meta:
         model = Personas
