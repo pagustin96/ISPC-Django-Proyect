@@ -99,6 +99,15 @@ class PersonasView(viewsets.ModelViewSet):
         if self.action in ['retrieve', 'list']:
             return PersonasGetSerializer  # Usar el serializador específico para GET
         return PersonasSerializer  # Usar el serializador original para otras operaciones
+    
+@api_view(['GET'])
+def buscar_persona_por_dni(request, personal_id):
+    try:
+        persona = Personas.objects.get(personal_id=personal_id)
+        serializer = PersonasGetSerializer(persona)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    except Personas.DoesNotExist:
+        return Response({'error': 'La persona no fue encontrada.'}, status=status.HTTP_404_NOT_FOUND)
 
 class PersonasTitulacionesView(viewsets.ModelViewSet):
     queryset = PersonasTitulaciones.objects.all()
@@ -107,11 +116,9 @@ class PersonasTitulacionesView(viewsets.ModelViewSet):
             return PersonasTitulacionesGetSerializer  # Usar el serializador específico para GET
         return PersonasTitulacionesSerializer  # Usar el serializador original para otras operaciones
     
-
 class ProvinciasView(viewsets.ModelViewSet):
     serializer_class = ProvinciasSerializer
     queryset = Provincias.objects.all()
-
 
 class TipoPersonaView(viewsets.ModelViewSet):
     serializer_class = TiposPersonaSerializer
