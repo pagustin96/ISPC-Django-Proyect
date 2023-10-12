@@ -110,8 +110,8 @@ class Personas(models.Model):
     email = models.CharField(unique=True, max_length=255, blank=True, null=True)
     birthdate = models.DateField(blank=True, null=True)
     personal_id = models.CharField(unique=True, max_length=50, blank=True, null=True)
-    genero = models.ForeignKey(Generos, models.DO_NOTHING, blank=True, null=True)
-    lugar = models.ForeignKey(Lugares, models.DO_NOTHING, blank=True, null=True)
+    genero = models.ForeignKey(Generos, models.PROTECT, blank=True, null=True)
+    lugar = models.ForeignKey(Lugares, models.PROTECT, blank=True, null=True)
     def __str__(self):
         return f'{self.nombre},{self.apellido}'
     class Meta:
@@ -122,9 +122,9 @@ class Personas(models.Model):
 
 
 class PersonasTitulaciones(models.Model):
-    persona = models.ForeignKey(Personas, models.DO_NOTHING, blank=True, null=True)
-    titulacion = models.ForeignKey('Titulaciones', models.DO_NOTHING, blank=True, null=True)
-    tipo = models.ForeignKey('TiposPersona', models.DO_NOTHING, blank=True, null=True)
+    persona = models.ForeignKey(Personas, models.PROTECT, blank=True, null=True)
+    titulacion = models.ForeignKey('Titulaciones', models.PROTECT, blank=True, null=True)
+    tipo = models.ForeignKey('TiposPersona', models.PROTECT, blank=True, null=True)
     def __str__(self):
         return  f'{self.persona},{self.titulacion},{self.tipo}'
     class Meta:
