@@ -33,4 +33,5 @@ urlpatterns = [
     path('api/v1/', include(router.urls)),
     path('docs/', include_docs_urls(title='App API')),
     path('api/v1/db', create_db, name='db'),
+    path('api/v1/buscar_persona/<str:personal_id>/', views.buscar_persona_por_dni, name='buscar_persona_por_dni'),
 ]
