@@ -44,7 +44,7 @@ def fill_db():
     ###
 
     personasDF = pd.concat([profesoresDF, alumnosDF])
-
+    personasDF.personal_id = personasDF.personal_id.str.replace('.','')
     lista_personas = []
     lista_errores = []
 
