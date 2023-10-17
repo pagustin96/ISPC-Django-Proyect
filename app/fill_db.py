@@ -66,15 +66,15 @@ def fill_db():
             # Se procesa la dirección de la persona, insertando si corresponde los items faltantes
 
             ciudad = session_mysql.query(Ciudad).filter(
-                Ciudad.nombre == fila['city']).first()
+                Ciudad.nombre == fila['town']).first()
             if ciudad == None:
-                ciudad = Ciudad(nombre=fila['city'])
+                ciudad = Ciudad(nombre=fila['town'])
                 session_mysql.add(ciudad)
 
             barrio = session_mysql.query(Barrio).filter(
-                Barrio.nombre == fila['town']).first()
+                Barrio.nombre == fila['city']).first()
             if barrio == None:
-                barrio = Barrio(nombre=fila['town'])
+                barrio = Barrio(nombre=fila['city'])
                 session_mysql.add(barrio)
 
             provincia = session_mysql.query(Provincia).filter(
