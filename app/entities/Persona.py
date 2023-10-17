@@ -12,7 +12,7 @@ class Persona(Base):
     apellido = Column(String(100))
     email = Column(String(255), unique=True)
     birthdate = Column(Date)
-    personal_id = Column(String(50), unique=True)
+    personal_id = Column(Integer, unique=True)
     genero_id = Column(Integer, ForeignKey("generos.id"))
     lugar_id = Column(Integer, ForeignKey("lugares.id"))
 
