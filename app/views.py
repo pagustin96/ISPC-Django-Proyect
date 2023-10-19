@@ -66,22 +66,32 @@ class CampusView(viewsets.ModelViewSet):
     serializer_class = CampusSerializer
     queryset = Campus.objects.all()
 
+@authentication_classes([SessionAuthentication, TokenAuthentication])
+@permission_classes([IsAuthenticated])
 class CarrerasView(viewsets.ModelViewSet):
     serializer_class = CarrerasSerializer
     queryset = Carreras.objects.all()
 
+@authentication_classes([SessionAuthentication, TokenAuthentication])
+@permission_classes([IsAuthenticated])
 class CiudadesView(viewsets.ModelViewSet):
     serializer_class = CiudadesSerializer
     queryset = Ciudades.objects.all()
 
+@authentication_classes([SessionAuthentication, TokenAuthentication])
+@permission_classes([IsAuthenticated])
 class FacultadesView(viewsets.ModelViewSet):
     serializer_class = FacultadesSerializer
     queryset = Facultades.objects.all()
 
+@authentication_classes([SessionAuthentication, TokenAuthentication])
+@permission_classes([IsAuthenticated])
 class GenerosView(viewsets.ModelViewSet):
     serializer_class = GenerosSerializer
     queryset = Generos.objects.all()
 
+@authentication_classes([SessionAuthentication, TokenAuthentication])
+@permission_classes([IsAuthenticated])
 class LugaresView(viewsets.ModelViewSet):
     queryset = Lugares.objects.all()
     def get_serializer_class(self):
@@ -89,17 +99,23 @@ class LugaresView(viewsets.ModelViewSet):
             return LugaresGetSerializer  # Usar el serializador específico para GET
         return LugaresSerializer  # Usar el serializador original para otras operaciones
 
+@authentication_classes([SessionAuthentication, TokenAuthentication])
+@permission_classes([IsAuthenticated])
 class PaisesView(viewsets.ModelViewSet):
     serializer_class = PaisesSerializer
     queryset = Paises.objects.all()
 
+@authentication_classes([SessionAuthentication, TokenAuthentication])
+@permission_classes([IsAuthenticated])
 class PersonasView(viewsets.ModelViewSet):
     queryset = Personas.objects.all()
     def get_serializer_class(self):
         if self.action in ['retrieve', 'list']:
             return PersonasGetSerializer  # Usar el serializador específico para GET
         return PersonasSerializer  # Usar el serializador original para otras operaciones
-    
+
+@authentication_classes([SessionAuthentication, TokenAuthentication])
+@permission_classes([IsAuthenticated])   
 @api_view(['GET'])
 def buscar_persona_por_dni(request, personal_id):
     try:
@@ -109,21 +125,29 @@ def buscar_persona_por_dni(request, personal_id):
     except Personas.DoesNotExist:
         return Response({'error': 'La persona no fue encontrada.'}, status=status.HTTP_404_NOT_FOUND)
 
+@authentication_classes([SessionAuthentication, TokenAuthentication])
+@permission_classes([IsAuthenticated])
 class PersonasTitulacionesView(viewsets.ModelViewSet):
     queryset = PersonasTitulaciones.objects.all()
     def get_serializer_class(self):
         if self.action in ['retrieve', 'list']:
             return PersonasTitulacionesGetSerializer  # Usar el serializador específico para GET
         return PersonasTitulacionesSerializer  # Usar el serializador original para otras operaciones
-    
+
+@authentication_classes([SessionAuthentication, TokenAuthentication])
+@permission_classes([IsAuthenticated])    
 class ProvinciasView(viewsets.ModelViewSet):
     serializer_class = ProvinciasSerializer
     queryset = Provincias.objects.all()
 
+@authentication_classes([SessionAuthentication, TokenAuthentication])
+@permission_classes([IsAuthenticated])
 class TipoPersonaView(viewsets.ModelViewSet):
     serializer_class = TiposPersonaSerializer
     queryset = TiposPersona.objects.all()
 
+@authentication_classes([SessionAuthentication, TokenAuthentication])
+@permission_classes([IsAuthenticated])
 class TitulacionesView(viewsets.ModelViewSet):
     queryset = Titulaciones.objects.all()
     def get_serializer_class(self):
@@ -131,6 +155,8 @@ class TitulacionesView(viewsets.ModelViewSet):
             return TitulacionesGetSerializer  # Usar el serializador específico para GET
         return TitulacionesSerializer  # Usar el serializador original para otras operaciones
 
+@authentication_classes([SessionAuthentication, TokenAuthentication])
+@permission_classes([IsAuthenticated])
 class universidadesView(viewsets.ModelViewSet):
     serializer_class = UniversidadesSerializer
     queryset = Universidades.objects.all()
