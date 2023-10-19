@@ -1,0 +1,7 @@
+Django
+djangorestframework
+pandas
+python-dotenv
+SQLAlchemy
+SQLAlchemy_Utils
+psycopg2
