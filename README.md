@@ -1,6 +1,6 @@
 
 # proyecto-ispc
-
+# GESTION DE INSTITUCIONES EDUCATIVAS
 ## Requisitos para correr el proyecto local:
 IMPORTANTE!!
 Antes de correr el proyecto de forma local se debe crear la base de datos con el nombre ispc
@@ -21,4 +21,6 @@ B. Conexion con MySQL:
 C. Iniciar servidor local  
    1. Posicionarse en ISPC-Django-Proyect y correr el comando "python manage.py makemigrations" luego "python manage.py migrate" y por ultimo "python manage.py runserver"
    2. Abrir http://127.0.0.1:8000/
-   
+
+Diagrama de Entidades
+![Imagen de WhatsApp 2023-10-10 a las 21 05 31_5d9178a6](https://github.com/pagustin96/ISPC-Django-Proyect/assets/105244530/c7d94e45-6f0c-4516-a68c-290bf55416a6)
