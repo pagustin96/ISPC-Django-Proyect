@@ -1,6 +1,7 @@
-
-# proyecto-ispc
 # GESTION DE INSTITUCIONES EDUCATIVAS
+
+Aplicacion desarrollada con Python, MySQL, Django, Django Restframework.
+Deployada en Pythonanywhere
 ## Requisitos para correr el proyecto local:
 IMPORTANTE!!
 Antes de correr el proyecto de forma local se debe crear la base de datos con el nombre ispc
